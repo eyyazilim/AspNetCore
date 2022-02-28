@@ -20,11 +20,12 @@
 
     <div class="mb-3">
         <label>Şifre Tekrar:</label>
-        @*<span class="text-danger" asp-validation-for="@Model.ConfirmPassword"></span>*@
+        <span class="text-danger" asp-validation-for="@Model.ConfirmPassword"></span>
         <input type="password" asp-for="@Model.ConfirmPassword" class="form-control" />
     </div>
 
     <div class="mb-3">
         <button type="submit" class="btn btn-success">Kaydet</button>
     </div>
+    <div class="text-danger mt-2" asp-validation-summary="ModelOnly"></div>
 </form>

@@ -27,11 +27,18 @@ namespace EyIdentityApp
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddIdentity<AppUser, AppRole>().AddEntityFrameworkStores<EyContext>();
+            services.AddIdentity<AppUser, AppRole>(opt =>
+            {
+                opt.Password.RequireDigit = false;
+                opt.Password.RequiredLength = 4;
+                opt.Password.RequireLowercase = false;
+                opt.Password.RequireUppercase = false;
+                opt.Password.RequireNonAlphanumeric = false;
+            }).AddEntityFrameworkStores<EyContext>();
 
             services.AddDbContext<EyContext>(opt =>
             {
-                opt.UseSqlServer("server=DALYANYGM-PC00; database=EyIdentityDb; integrated security=true;") ;
+                opt.UseSqlServer("server=DALYANYGM-PC00; database=EyIdentityDb; integrated security=true;");
             });
             services.AddControllersWithViews();
         }
