@@ -23,6 +23,20 @@ namespace EyIdentityApp.Controllers
             return View();
         }
 
+        public IActionResult Register()
+        {
+            return View(new UserRegisterModel());
+        }
+        [HttpPost]
+        public IActionResult Register(UserRegisterModel model)
+        {
+            if (ModelState.IsValid)
+            { 
+                //Business
+            }
+            return View(model);
+        }
+
         public IActionResult Privacy()
         {
             return View();
