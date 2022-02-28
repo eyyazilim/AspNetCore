@@ -34,6 +34,7 @@ namespace EyIdentityApp
                 opt.Password.RequireLowercase = false;
                 opt.Password.RequireUppercase = false;
                 opt.Password.RequireNonAlphanumeric = false;
+                opt.SignIn.RequireConfirmedEmail = false;
             }).AddEntityFrameworkStores<EyContext>();
 
             services.AddDbContext<EyContext>(opt =>
@@ -61,7 +62,8 @@ namespace EyIdentityApp
                 RequestPath = "/node_modules",
             });
             app.UseRouting();
-
+            
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
