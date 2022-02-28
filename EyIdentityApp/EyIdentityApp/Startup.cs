@@ -1,12 +1,15 @@
 using EyIdentityApp.Context;
+using EyIdentityApp.Entities;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -24,6 +27,8 @@ namespace EyIdentityApp
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddIdentity<AppUser, AppRole>().AddEntityFrameworkStores<EyContext>();
+
             services.AddDbContext<EyContext>(opt =>
             {
                 opt.UseSqlServer("server=DALYANYGM-PC00; database=EyIdentityDb; integrated security=true;") ;
@@ -43,7 +48,11 @@ namespace EyIdentityApp
                 app.UseExceptionHandler("/Home/Error");
             }
             app.UseStaticFiles();
-
+            app.UseStaticFiles(new StaticFileOptions()
+            {
+                FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "node_modules")),
+                RequestPath = "/node_modules",
+            });
             app.UseRouting();
 
             app.UseAuthorization();
