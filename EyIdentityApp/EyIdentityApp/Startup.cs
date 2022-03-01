@@ -1,7 +1,9 @@
 using EyIdentityApp.Context;
+using EyIdentityApp.CustomDescriber;
 using EyIdentityApp.Entities;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -29,13 +31,25 @@ namespace EyIdentityApp
         {
             services.AddIdentity<AppUser, AppRole>(opt =>
             {
-                opt.Password.RequireDigit = false;
-                opt.Password.RequiredLength = 4;
-                opt.Password.RequireLowercase = false;
-                opt.Password.RequireUppercase = false;
-                opt.Password.RequireNonAlphanumeric = false;
-                opt.SignIn.RequireConfirmedEmail = false;
-            }).AddEntityFrameworkStores<EyContext>();
+                //opt.Password.RequireDigit = false;
+                //opt.Password.RequiredLength = 4;
+                //opt.Password.RequireLowercase = false;
+                //opt.Password.RequireUppercase = false;
+                //opt.Password.RequireNonAlphanumeric = false;
+                //opt.SignIn.RequireConfirmedEmail = false;
+            }).AddErrorDescriber<CustomErrorDescriber>().AddEntityFrameworkStores<EyContext>();
+            
+            services.ConfigureApplicationCookie(opt =>
+            {
+                opt.Cookie.HttpOnly = true;
+                opt.Cookie.SameSite = SameSiteMode.Strict;
+                opt.Cookie.SecurePolicy = CookieSecurePolicy.SameAsRequest;
+                opt.Cookie.Name = "EyCookie";
+                opt.ExpireTimeSpan = TimeSpan.FromDays(25);
+                opt.LoginPath = new PathString( "/Home/SignIn");
+                opt.LogoutPath= new PathString("/Home/Logout");
+                opt.AccessDeniedPath = new PathString("/Home/AccessDenied");
+            });
 
             services.AddDbContext<EyContext>(opt =>
             {
@@ -62,7 +76,7 @@ namespace EyIdentityApp
                 RequestPath = "/node_modules",
             });
             app.UseRouting();
-            
+
             app.UseAuthentication();
             app.UseAuthorization();
 

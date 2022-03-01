@@ -47,15 +47,17 @@ namespace EyIdentityApp.Controllers
                     Email = model.Email,
                     UserName = model.UserName,
                 };
-
-                
-
                 var identityResult = await _userManager.CreateAsync(user, model.Password);
-                if (identityResult.Succeeded) 
+                if (identityResult.Succeeded)
                 {
-                    await _roleManager.CreateAsync(new AppRole() { Name = "Admin", CreatedTime = DateTime.Now });
-                    await _userManager.AddToRoleAsync(user, "Admin"); 
-                    return RedirectToAction("Index"); 
+                    var memberRole = await _roleManager.FindByNameAsync("Member");
+                    if (memberRole == null)
+                    {
+                        await _roleManager.CreateAsync(new AppRole() { Name = "Member", CreatedTime = DateTime.Now });
+                        await _userManager.AddToRoleAsync(user, "Member");
+                    }
+
+                    return RedirectToAction("Index");
                 }
                 foreach (var error in identityResult.Errors)
                 {
@@ -76,9 +78,9 @@ namespace EyIdentityApp.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
-        public IActionResult SignIn()
+        public IActionResult SignIn(string returnUrl)
         {
-            return View(new UserSignInModel());
+            return View(new UserSignInModel { ReturnUrl = returnUrl });
         }
         [HttpPost]
         public async Task<IActionResult> SignIn(UserSignInModel model)
@@ -88,8 +90,15 @@ namespace EyIdentityApp.Controllers
                 var signInResult = await _signInManager.PasswordSignInAsync(model.UserName, model.Password, false, true);
                 if (signInResult.Succeeded)
                 {
+                    if (!string.IsNullOrWhiteSpace(model.ReturnUrl)) return Redirect(model.ReturnUrl);
                     //İşlem Başarılı
-                    //return RedirectToAction("Index");
+                    var user = await _userManager.FindByNameAsync(model.UserName);
+                    var roles = await _userManager.GetRolesAsync(user);
+
+                    if (roles.Contains("Admin"))
+                        return RedirectToAction("AdminManager");
+                    else
+                        return RedirectToAction("MemberManager");
                 }
                 else if (signInResult.IsLockedOut)
                 {
@@ -100,13 +109,34 @@ namespace EyIdentityApp.Controllers
                     //Email yada phonenember doğrulanmamış 
                 }
             }
+            ModelState.AddModelError("","Kullanıcı adı veya şifre hatalı");
             return View(model);
         }
         [Authorize]//[Authorize(Roles ="Admin,Member")]
         public IActionResult GetUserInfo()
         {
             var userName = User.Identity.Name;
-            var role = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Role);
+            var role = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Role).Value;
+
+            return View();
+        }
+        [Authorize(Roles = "Admin")]
+        public IActionResult AdminManager()
+        {
+            return View();
+        }
+        [Authorize(Roles = "Member")]
+        public IActionResult MemberManager()
+        {
+            return View();
+        }
+        [Authorize(Roles = "Member")]
+        public IActionResult MemberPage()
+        {
+            return View();
+        }
+        public IActionResult AccessDenied()
+        {
             return View();
         }
     }
