@@ -37,6 +37,7 @@ namespace EyIdentityApp
                 //opt.Password.RequireUppercase = false;
                 //opt.Password.RequireNonAlphanumeric = false;
                 //opt.SignIn.RequireConfirmedEmail = false;
+                opt.Lockout.MaxFailedAccessAttempts = 3;
             }).AddErrorDescriber<CustomErrorDescriber>().AddEntityFrameworkStores<EyContext>();
             
             services.ConfigureApplicationCookie(opt =>

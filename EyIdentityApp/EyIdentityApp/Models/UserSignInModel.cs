@@ -8,6 +8,7 @@ namespace EyIdentityApp.Models
         public string UserName { get; set; }
         [Required(ErrorMessage = "Şifre gereklidir!")]
         public string Password { get; set; }
+        public bool RenemberMe { get; set; }
         public string ReturnUrl { get; set; }
     }
 }

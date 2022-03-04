@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 namespace EyIdentityApp.Controllers
 {
     [AutoValidateAntiforgeryToken]
+    
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
@@ -26,7 +27,7 @@ namespace EyIdentityApp.Controllers
             _signInManager = signInManager;
             _roleManager = roleManager;
         }
-
+        [AllowAnonymous]
         public IActionResult Index()
         {
 
@@ -77,7 +78,7 @@ namespace EyIdentityApp.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
-
+        [AllowAnonymous]
         public IActionResult SignIn(string returnUrl)
         {
             return View(new UserSignInModel { ReturnUrl = returnUrl });
@@ -85,14 +86,16 @@ namespace EyIdentityApp.Controllers
         [HttpPost]
         public async Task<IActionResult> SignIn(UserSignInModel model)
         {
+            string message = string.Empty;
             if (ModelState.IsValid)
             {
-                var signInResult = await _signInManager.PasswordSignInAsync(model.UserName, model.Password, false, true);
+                var user = await _userManager.FindByNameAsync(model.UserName);
+                var signInResult = await _signInManager.PasswordSignInAsync(model.UserName, model.Password, model.RenemberMe, true);
                 if (signInResult.Succeeded)
                 {
                     if (!string.IsNullOrWhiteSpace(model.ReturnUrl)) return Redirect(model.ReturnUrl);
                     //İşlem Başarılı
-                    var user = await _userManager.FindByNameAsync(model.UserName);
+
                     var roles = await _userManager.GetRolesAsync(user);
 
                     if (roles.Contains("Admin"))
@@ -102,14 +105,26 @@ namespace EyIdentityApp.Controllers
                 }
                 else if (signInResult.IsLockedOut)
                 {
-                    //Hesap Kilitlidir.
+                    if (user != null)
+                    {
+                        var LockOutEnd=await _userManager.GetLockoutEndDateAsync(user);
+                        message = $"Hesabınız askıya alınmıştır! {(LockOutEnd.Value.UtcDateTime-DateTime.UtcNow).Minutes} dk. sonra tekrar aktif edilecektir.";
+                    }
+                    else
+                        message = "Hesabınız geçici olarak kilitlenmiştir!";
                 }
-                else if (signInResult.IsNotAllowed)
+                else
                 {
-                    //Email yada phonenember doğrulanmamış 
+                    if (user != null)
+                    {
+                        var failedCount = await _userManager.GetAccessFailedCountAsync(user);
+                        message = $"{(_userManager.Options.Lockout.MaxFailedAccessAttempts - failedCount)} kez daha girerseniz hesabınız geçici olarak kilitlenecektir!";
+                    }
+                    else message = "Kullanıcı Adı veya şifre hatalı!";
                 }
             }
-            ModelState.AddModelError("","Kullanıcı adı veya şifre hatalı");
+            else message = "Girilen veriler hatalıdır!";
+            ModelState.AddModelError("", message);
             return View(model);
         }
         [Authorize]//[Authorize(Roles ="Admin,Member")]
@@ -138,6 +153,11 @@ namespace EyIdentityApp.Controllers
         public IActionResult AccessDenied()
         {
             return View();
+        }
+        public async Task<IActionResult> SignOut()
+        {
+            await _signInManager.SignOutAsync();
+            return RedirectToAction("Index");
         }
     }
 }

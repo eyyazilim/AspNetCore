@@ -12,6 +12,12 @@
         <span class="text-danger" asp-validation-for="@Model.Password"></span>
         <input type="password" asp-for="@Model.Password" class="form-control" />
     </div>
+    <div class="form-check">
+        <input class="form-check-input" type="checkbox" asp-for="@Model.RenemberMe">
+        <label class="form-check-label" for="RenemberMe">
+            Beni Hatırla
+        </label>
+    </div>
 
     <div class="mb-3">
         <button type="submit" class="btn btn-success">Oturum Aç</button>
