@@ -54,7 +54,7 @@ namespace EyIdentityApp
 
             services.AddDbContext<EyContext>(opt =>
             {
-                opt.UseSqlServer("server=DALYANYGM-PC00; database=EyIdentityDb; integrated security=true;");
+                opt.UseSqlServer("server=EY; database=EyIdentityDb; integrated security=true;");
             });
             services.AddControllersWithViews();
         }
