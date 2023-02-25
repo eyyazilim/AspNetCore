@@ -5,7 +5,7 @@ VisualStudioVersion = 17.5.33414.496
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EyIdentityApp", "EyIdentityApp\EyIdentityApp.csproj", "{64F20FEC-BE01-44DA-826D-08560412CC88}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EyIdentity.CoreYedi", "EyIdentity.CoreYedi\EyIdentity.CoreYedi.csproj", "{880FAB56-9FA4-4D88-AEAE-AFC4A72EEAE7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EyCoreYediIdentity", "EyCoreYediIdentity\EyCoreYediIdentity.csproj", "{09D13414-F7B9-4B85-84F5-49360C9848C9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,10 +17,10 @@ Global
 		{64F20FEC-BE01-44DA-826D-08560412CC88}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{64F20FEC-BE01-44DA-826D-08560412CC88}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{64F20FEC-BE01-44DA-826D-08560412CC88}.Release|Any CPU.Build.0 = Release|Any CPU
-		{880FAB56-9FA4-4D88-AEAE-AFC4A72EEAE7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{880FAB56-9FA4-4D88-AEAE-AFC4A72EEAE7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{880FAB56-9FA4-4D88-AEAE-AFC4A72EEAE7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{880FAB56-9FA4-4D88-AEAE-AFC4A72EEAE7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{09D13414-F7B9-4B85-84F5-49360C9848C9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{09D13414-F7B9-4B85-84F5-49360C9848C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{09D13414-F7B9-4B85-84F5-49360C9848C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{09D13414-F7B9-4B85-84F5-49360C9848C9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
