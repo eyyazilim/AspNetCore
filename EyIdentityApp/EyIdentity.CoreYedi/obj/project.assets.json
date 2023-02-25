@@ -13,11 +13,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\eyup.yigit\\Source\\Repos\\eyyazilim\\AspNetCore\\EyIdentityApp\\EyIdentity.CoreYedi\\EyIdentity.CoreYedi.csproj",
+      "projectUniqueName": "C:\\Users\\eyup.yigit\\Documents\\Ey\\Eyyazilim\\AspNetCore\\EyIdentityApp\\EyIdentity.CoreYedi\\EyIdentity.CoreYedi.csproj",
       "projectName": "EyIdentity.CoreYedi",
-      "projectPath": "C:\\Users\\eyup.yigit\\Source\\Repos\\eyyazilim\\AspNetCore\\EyIdentityApp\\EyIdentity.CoreYedi\\EyIdentity.CoreYedi.csproj",
+      "projectPath": "C:\\Users\\eyup.yigit\\Documents\\Ey\\Eyyazilim\\AspNetCore\\EyIdentityApp\\EyIdentity.CoreYedi\\EyIdentity.CoreYedi.csproj",
       "packagesPath": "C:\\Users\\eyup.yigit\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\eyup.yigit\\Source\\Repos\\eyyazilim\\AspNetCore\\EyIdentityApp\\EyIdentity.CoreYedi\\obj\\",
+      "outputPath": "C:\\Users\\eyup.yigit\\Documents\\Ey\\Eyyazilim\\AspNetCore\\EyIdentityApp\\EyIdentity.CoreYedi\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\eyup.yigit\\AppData\\Roaming\\NuGet\\NuGet.Config",
